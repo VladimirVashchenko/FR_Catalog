@@ -1,5 +1,3 @@
-package sample;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Controller controller = new Controller();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("mainWindow.fxml"));
+        loader.setLocation(getClass().getResource("view/mainWindow.fxml"));
         Parent root = loader.load();
         loader.setController(controller);
 

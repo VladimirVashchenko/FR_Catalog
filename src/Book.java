@@ -1,11 +1,10 @@
-package sample;
-
 import javafx.beans.property.*;
 
 /**
  * Created by Administrator on 26.10.2016.
  */
 public class Book {
+    private final IntegerProperty number;
     private final StringProperty title;
     private final StringProperty series;
     private final StringProperty author;
@@ -20,6 +19,7 @@ public class Book {
     }
 
     public Book(String title, String series) {
+        this.number = new SimpleIntegerProperty();
         this.title = new SimpleStringProperty(title);
         this.series = new SimpleStringProperty(series);
         this.author = new SimpleStringProperty("");
@@ -30,6 +30,17 @@ public class Book {
         this.haveRead = new SimpleBooleanProperty(false);
     }
 
+    public void setNumber(int number) {
+        this.number.set(number);
+    }
+
+    public int getNumber() {
+        return number.get();
+    }
+
+    public IntegerProperty numberProperty() {
+        return number;
+    }
 
 
     public void setTitle(String title) {
