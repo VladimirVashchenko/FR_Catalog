@@ -1,3 +1,5 @@
+package fr_catalog;
+
 import javafx.beans.property.*;
 
 /**

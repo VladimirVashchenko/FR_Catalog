@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_fr_catalog" default="compile.module.fr_catalog">
+  <dirname property="module.fr_catalog.basedir" file="${ant.file.module_fr_catalog}"/>
+  
+  <property name="module.jdk.home.fr_catalog" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.fr_catalog" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.fr_catalog" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.fr_catalog" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="fr_catalog.output.dir" value="${module.fr_catalog.basedir}/out/production/FR_Catalog"/>
+  <property name="fr_catalog.testoutput.dir" value="${module.fr_catalog.basedir}/out/test/FR_Catalog"/>
+  
+  <path id="fr_catalog.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="fr_catalog.module.production.classpath">
+    <path refid="${module.jdk.classpath.fr_catalog}"/>
+  </path>
+  
+  <path id="fr_catalog.runtime.production.module.classpath">
+    <pathelement location="${fr_catalog.output.dir}"/>
+  </path>
+  
+  <path id="fr_catalog.module.classpath">
+    <path refid="${module.jdk.classpath.fr_catalog}"/>
+    <pathelement location="${fr_catalog.output.dir}"/>
+  </path>
+  
+  <path id="fr_catalog.runtime.module.classpath">
+    <pathelement location="${fr_catalog.testoutput.dir}"/>
+    <pathelement location="${fr_catalog.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.fr_catalog">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.fr_catalog">
+    <patternset refid="excluded.from.module.fr_catalog"/>
+  </patternset>
+  
+  <path id="fr_catalog.module.sourcepath">
+    <dirset dir="${module.fr_catalog.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+
+</project>
