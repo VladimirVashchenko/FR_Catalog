@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private static Stage primaryStage;
-
+    private final DBHelper db = DBHelper.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -19,16 +19,17 @@ public class Main extends Application {
         loader.setLocation(Main.class.getResource("view/mainWindow.fxml"));
         loader.setController(controller);
         Parent root = loader.load();
-        //final Controller controller = loader.<Controller>getController();
 
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Catalog");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setWidth(904);
-        primaryStage.setHeight(600);
+        primaryStage.setWidth(1280);
+        primaryStage.setHeight(720);
         primaryStage.setMinWidth(500);
         primaryStage.setMinHeight(300);
         primaryStage.show();
 
+        db.connectToDB();
+        db.createTables();
 
         controller.setMain(this);
         controller.setPrimaryStage(this.primaryStage);

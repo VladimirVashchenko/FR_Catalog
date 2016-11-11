@@ -8,27 +8,29 @@ import javafx.beans.property.*;
 public class Book {
     private final IntegerProperty number;
     private final StringProperty title;
+    private final StringProperty novelTitle;
     private final StringProperty series;
     private final StringProperty author;
-    private final SimpleIntegerProperty published;
-    private final SimpleIntegerProperty begins;
-    private final SimpleIntegerProperty ends;
-    private final SimpleIntegerProperty year;
+    private final SimpleStringProperty published;
+    private final SimpleStringProperty begins;
+    private final SimpleStringProperty ends;
+    private final SimpleStringProperty year;
     private final BooleanProperty haveRead;
 
     public Book() {
         this("No Title", "No Author");
     }
 
-    public Book(String title, String series) {
+    public Book(String title, String author) {
         this.number = new SimpleIntegerProperty();
         this.title = new SimpleStringProperty(title);
-        this.series = new SimpleStringProperty(series);
-        this.author = new SimpleStringProperty("");
-        this.published = new SimpleIntegerProperty();
-        this.begins = new SimpleIntegerProperty();
-        this.ends = new SimpleIntegerProperty();
-        this.year = new SimpleIntegerProperty();
+        this.novelTitle = new SimpleStringProperty();
+        this.series = new SimpleStringProperty();
+        this.author = new SimpleStringProperty(author);
+        this.published = new SimpleStringProperty("");
+        this.begins = new SimpleStringProperty("");
+        this.ends = new SimpleStringProperty("");
+        this.year = new SimpleStringProperty("");
         this.haveRead = new SimpleBooleanProperty(false);
     }
 
@@ -58,6 +60,19 @@ public class Book {
     }
 
 
+    public void setNovelTitle(String title) {
+        this.novelTitle.set(title);
+    }
+
+    public String getNovelTitle() {
+        return novelTitle.get();
+    }
+
+    public StringProperty novelTitleProperty() {
+        return novelTitle;
+    }
+
+
     public void setSeries(String series) {
         this.series.set(series);
     }
@@ -84,54 +99,54 @@ public class Book {
     }
 
 
-    public void setPublished(int published) {
+    public void setPublished(String published) {
         this.published.set(published);
     }
 
-    public int getPublished() {
+    public String getPublished() {
         return published.get();
     }
 
-    public IntegerProperty publishedProperty() {
+    public StringProperty publishedProperty() {
         return published;
     }
 
 
-    public void setBegins(int begins) {
+    public void setBegins(String begins) {
         this.begins.set(begins);
     }
 
-    public int getBegins() {
+    public String getBegins() {
         return begins.get();
     }
 
-    public IntegerProperty beginsProperty() {
+    public StringProperty beginsProperty() {
         return begins;
     }
 
 
-    public void setEnds(int ends) {
+    public void setEnds(String ends) {
         this.ends.set(ends);
     }
 
-    public int getEnds() {
+    public String getEnds() {
         return ends.get();
     }
 
-    public IntegerProperty endsProperty() {
+    public StringProperty endsProperty() {
         return ends;
     }
 
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year.set(year);
     }
 
-    public int getYear() {
+    public String getYear() {
         return year.get();
     }
 
-    public IntegerProperty yearProperty() {
+    public StringProperty yearProperty() {
         return year;
     }
 
