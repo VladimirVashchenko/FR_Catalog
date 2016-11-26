@@ -66,32 +66,39 @@ public class DBHelper {
 
 	public void createTables() {
 		PreparedStatement statement = null;
+		String authors = "CREATE TABLE IF NOT EXISTS 'authors' (" +
+				"author_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				"first_name TEXT NOT NULL, " +
+				"second_name TEXT NOT NULL, " +
+				"surname TEXT NOT NULL, " +
+				"UNIQUE (first_name, surname)" +
+				")";
 
 		String novels = "CREATE TABLE IF NOT EXISTS 'novels' (" +
-				"'novel_id'  integer PRIMARY KEY AUTOINCREMENT, " +
-				"'book_id' integer, " +
-				"'series_id' integer, " +
-				"'novel_title' text UNIQUE, " +
-				"'author' text, " +
-				"'published' text, " +
-				"'begins' text, " +
-				"'ends' text, " +
-				"'year' text, " +
-				"'have_read' text, " +
-				"FOREIGN KEY (book_id) REFERENCES books (book_id)," +
-				"FOREIGN KEY (series_id) REFERENCES series (series_id))";
+				"'novel_id'  INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				"'book_id' INTEGER, " +
+				"author_id INTEGER NOT NULL, " +
+				"'novel_title' TEXT NOT NULL UNIQUE, " +
+				"'published_ad' TEXT NOT NULL, " +
+				"'begins_dr' TEXT NOT NULL, " +
+				"'ends_dr' TEXT NOT NULL, " +
+				"'year_dr' TEXT NOT NULL, " +
+				"'have_read' BOOLEAN NOT NULL, " +
+				"FOREIGN KEY (book_id) REFERENCES books (book_id), " +
+				"FOREIGN KEY (author_id) REFERENCES authors (author_id)" +
+				")";
 
 		String books = "CREATE TABLE IF NOT EXISTS 'books'(" +
-				"'book_id' integer PRIMARY KEY AUTOINCREMENT, " +
-				"'series_id' integer, " +
-				"'book_number' integer, " +
-				"'book_title' text NOT NULL, " +
+				"'book_id' INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				"'series_id' INTEGER, " +
+				"'book_title' TEXT NOT NULL UNIQUE, " +
 				"FOREIGN KEY (series_id) REFERENCES series (series_id))";
 
 		String series = "CREATE TABLE IF NOT EXISTS 'series'(" +
-				"'series_id' integer PRIMARY KEY AUTOINCREMENT, " +
-				"'series_title' text)";
+				"'series_id' INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				"'series_title' TEXT NOT NULL UNIQUE)";
 
+		createDB(connection, statement, authors);
 		createDB(connection, statement, novels);
 		createDB(connection, statement, books);
 		createDB(connection, statement, series);
@@ -112,6 +119,109 @@ public class DBHelper {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+
+	public void insertAuthor(String firstName, String secondName, String surname) {
+		String statement = "INSERT OR IGNORE INTO authors (first_name, second_name, surname) VALUES (?, ?, ?)";
+		prepareThreeParameters(statement, connection, firstName, secondName, surname);
+	}
+
+	public void insertSeries(String series) {
+		String statement = "INSERT OR IGNORE INTO series (series_title) VALUES (?)";
+		prepareOneParameter(statement, connection, series);
+	}
+
+	public void insertBook(String book, String series) {
+
+	}
+
+	public void insertBookStandAlone(String book) {
+
+	}
+
+	public void insertNovel(String novel){
+
+	}
+
+
+
+	public void updateAuthor(String author) {
+
+	}
+
+	public void updateSeries(String series) {
+
+	}
+
+	public void updateBook(String book) {
+
+	}
+
+	public void updateNovel(String novel){
+
+	}
+
+
+	public void deleteAuthor(String author) {
+
+	}
+
+	public void deleteSeries(String series) {
+
+	}
+
+	public void deleteBook(String book) {
+
+	}
+
+	public void deleteNovel(String novel){
+
+	}
+
+
+
+
+	private void prepareOneParameter(String sql, Connection connection, String first) {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, first);
+			statement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeStatement(statement);
+		}
+	}
+
+
+
+
+	private void prepareThreeParameters(String sql, Connection connection, String first, String second, String third) {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, first);
+			statement.setString(2, second);
+			statement.setString(3, third);
+			statement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeStatement(statement);
+		}
+	}
+
+	private void closeStatement(PreparedStatement statement) {
+		try {
+			if (statement != null) {
+				statement.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

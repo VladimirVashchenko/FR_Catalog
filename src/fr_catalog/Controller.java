@@ -15,27 +15,32 @@ public class Controller {
 	@FXML
 	AnchorPane pane_left, pane_right, pane_main;
 	@FXML
-	TableView<Book> table;
+	TableView<Novel> table;
 	@FXML
-	TableColumn<Book, Integer> column_number;
+	TableColumn<Novel, Integer> column_number;
 	@FXML
-	TableColumn<Book, String> column_series, column_novel, column_title, column_author, column_published, column_begins, column_ends, column_year;
+	TableColumn<Novel, String> column_series, column_novel, column_title, column_author, column_published, column_begins, column_ends, column_year;
 	@FXML
-	TableColumn<Book, Boolean> column_haveRead;
+	TableColumn<Novel, Boolean> column_haveRead;
 	@FXML
 	ChoiceBox<String> choice_series;
 	@FXML
 	CheckBox check_showSeries;
 
-	private ObservableList<Book> booksData = FXCollections.observableArrayList();
+	private ObservableList<Novel> booksData = FXCollections.observableArrayList();
 	private Stage primaryStage;
 	private Main main;
 
 	public Controller() {
-		booksData.add(new Book());
-		booksData.add(new Book());
-		booksData.add(new Book());
-		booksData.add(new Book());
+		booksData.add(new Novel());
+		booksData.add(new Novel());
+		booksData.add(new Novel());
+		booksData.add(new Novel());
+		Novel novel = new Novel();
+		novel.setSeries("Some Series").setNumber(1).setAuthor("Some Author").
+				setTitle("Some Title").setPublished("1995").setBegins("600").
+				setEnds("610").setYear("600-610").setHaveRead(true);
+		booksData.add(novel);
 	}
 
 	@FXML
@@ -53,7 +58,7 @@ public class Controller {
 
 		table.setItems(booksData);
 
-        /*column_title.setCellFactory(param -> new TableCell<Book, String>() {
+        /*column_title.setCellFactory(param -> new TableCell<Novel, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -66,72 +71,11 @@ public class Controller {
                 }
             }
         });*/
-		column_published.setCellFactory(param -> new TableCell<Book, String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				setStyle("-fx-alignment: baseline-right");
-				if (empty) {
-					setText("");
-					setGraphic(null);
-				} else {
-					setText(item);
-				}
-			}
-		});
-		column_begins.setCellFactory(param -> new TableCell<Book, String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				setStyle("-fx-alignment: baseline-right");
-				if (empty) {
-					setText("");
-					setGraphic(null);
-				} else {
-					if (!item.isEmpty()) {
-						setText(item + " DR");
-					} else {
-						setText(item);
-					}
-
-				}
-			}
-		});
-		column_ends.setCellFactory(param -> new TableCell<Book, String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				setStyle("-fx-alignment: baseline-right");
-				if (empty) {
-					setText("");
-					setGraphic(null);
-				} else {
-					if (!item.isEmpty()) {
-						setText(item + " DR");
-					} else {
-						setText(item);
-					}
-				}
-			}
-		});
-		column_year.setCellFactory(param -> new TableCell<Book, String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				setStyle("-fx-alignment: baseline-right");
-				if (empty) {
-					setText("");
-					setGraphic(null);
-				} else {
-					if (!item.isEmpty()) {
-						setText(item + " DR");
-					} else {
-						setText(item);
-					}
-				}
-			}
-		});
-		column_haveRead.setCellFactory(param -> new TableCell<Book, Boolean>() {
+		column_published.setCellFactory(param -> makeTableCell());
+		column_begins.setCellFactory(param -> makeTableCell("DR"));
+		column_ends.setCellFactory(param -> makeTableCell("DR"));
+		column_year.setCellFactory(param -> makeTableCell("DR"));
+		column_haveRead.setCellFactory(param -> new TableCell<Novel, Boolean>() {
 			CheckBox check = new CheckBox();
 
 			@Override
@@ -152,7 +96,7 @@ public class Controller {
 		pane_left.setVisible(false);
 	}
 
-	public ObservableList<Book> getBooksData() {
+	public ObservableList<Novel> getBooksData() {
 		return booksData;
 	}
 
@@ -182,4 +126,27 @@ public class Controller {
 		});
 	}
 
+	public TableCell makeTableCell() {
+		return makeTableCell("");
+	}
+
+	public TableCell makeTableCell(String suffix) {
+		return new TableCell<Novel, String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				setStyle("-fx-alignment: baseline-right");
+				if (empty) {
+					setText("");
+					setGraphic(null);
+				} else {
+					if (!item.isEmpty()) {
+						setText(!suffix.isEmpty() ? item + " " + suffix : item);
+					} else {
+						setText(item);
+					}
+				}
+			}
+		};
+	}
 }
