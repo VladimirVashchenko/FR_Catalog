@@ -66,42 +66,86 @@ public class DBHelper {
 
 	public void createTables() {
 		PreparedStatement statement = null;
+
 		String authors = "CREATE TABLE IF NOT EXISTS 'authors' (" +
-				"author_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				"author_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 				"first_name TEXT NOT NULL, " +
 				"second_name TEXT NOT NULL, " +
 				"surname TEXT NOT NULL, " +
 				"UNIQUE (first_name, surname)" +
 				")";
 
+		String singleNovels = "CREATE TABLE IF NOT EXISTS 'single_novels'(" +
+				"'novel_id' INTEGER NOT NULL," +
+				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id)" +
+				")";
+
 		String novels = "CREATE TABLE IF NOT EXISTS 'novels' (" +
-				"'novel_id'  INTEGER PRIMARY KEY AUTOINCREMENT, " +
-				"'book_id' INTEGER, " +
-				"author_id INTEGER NOT NULL, " +
+				"'novel_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 				"'novel_title' TEXT NOT NULL UNIQUE, " +
 				"'published_ad' TEXT NOT NULL, " +
 				"'begins_dr' TEXT NOT NULL, " +
-				"'ends_dr' TEXT NOT NULL, " +
-				"'year_dr' TEXT NOT NULL, " +
-				"'have_read' BOOLEAN NOT NULL, " +
-				"FOREIGN KEY (book_id) REFERENCES books (book_id), " +
-				"FOREIGN KEY (author_id) REFERENCES authors (author_id)" +
+				"'ends_dr' TEXT NOT NULL" +
 				")";
 
-		String books = "CREATE TABLE IF NOT EXISTS 'books'(" +
-				"'book_id' INTEGER PRIMARY KEY AUTOINCREMENT, " +
-				"'series_id' INTEGER, " +
-				"'book_title' TEXT NOT NULL UNIQUE, " +
-				"FOREIGN KEY (series_id) REFERENCES series (series_id))";
+		String anthologies = "CREATE TABLE IF NOT EXISTS 'anthologies'(" +
+				"'anthology_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+				"'anthology_title' TEXT NOT NULL UNIQUE, " +
+				"'published_ad' TEXT NOT NULL" +
+				");";
 
 		String series = "CREATE TABLE IF NOT EXISTS 'series'(" +
-				"'series_id' INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				"'series_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 				"'series_title' TEXT NOT NULL UNIQUE)";
 
+		String authorNovel = "CREATE TABLE IF NOT EXISTS 'author_novel'(" +
+				"'author_id' INTEGER NOT NULL, " +
+				"'novel_id' INTEGER NOT NULL," +
+				"FOREIGN KEY (author_id) REFERENCES authors (author_id), " +
+				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id)," +
+				"UNIQUE (author_id, novel_id)" +
+				");";
+
+		String anthologyNovel = "CREATE TABLE IF NOT EXISTS 'anthology_novel'(" +
+				"'anthology_id' INTEGER NOT NULL, " +
+				"'novel_id' INTEGER NOT NULL," +
+				"FOREIGN KEY (anthology_id) REFERENCES anthologies (anthology_id), " +
+				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id)" +
+				"UNIQUE (anthology_id, novel_id)" +
+				");";
+
+		String seriesNovel = "CREATE TABLE IF NOT EXISTS 'series_novel'(" +
+				"'series_id' INTEGER NOT NULL, " +
+				"'novel_id' INTEGER NOT NULL, " +
+				"'number' INTEGER NOT NULL, " +
+				"FOREIGN KEY (series_id) REFERENCES series (series_id), " +
+				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id), " +
+				"UNIQUE (series_id, novel_id)" +
+				");";
+
+		String authorAnthology = "CREATE TABLE IF NOT EXISTS 'author_anthology'(" +
+				"'author_id' INTEGER NOT NULL, " +
+				"'anthology_id' INTEGER NOT NULL," +
+				"FOREIGN KEY (author_id) REFERENCES authors (author_id), " +
+				"FOREIGN KEY (anthology_id) REFERENCES anthologies (anthology_id)" +
+				"UNIQUE (author_id, anthology_id)" +
+				");";
+
+		String read = "CREATE TABLE IF NOT EXISTS 'read'(" +
+				"novel_id INTEGER NOT NULL UNIQUE, " +
+				"'read' BOOLEAN NOT NULL" +
+				");";
+
 		createDB(connection, statement, authors);
+		createDB(connection, statement, singleNovels);
 		createDB(connection, statement, novels);
-		createDB(connection, statement, books);
+		createDB(connection, statement, anthologies);
 		createDB(connection, statement, series);
+		createDB(connection, statement, authorNovel);
+		createDB(connection, statement, anthologyNovel);
+		createDB(connection, statement, seriesNovel);
+		createDB(connection, statement, authorAnthology);
+		createDB(connection, statement, read);
 	}
 
 	private void createDB(Connection connection, PreparedStatement statement, String sql) {
@@ -132,7 +176,7 @@ public class DBHelper {
 		prepareOneParameter(statement, connection, series);
 	}
 
-	public void insertBook(String book, String series) {
+	public void insertBook(String book, int seriesId) {
 
 	}
 
