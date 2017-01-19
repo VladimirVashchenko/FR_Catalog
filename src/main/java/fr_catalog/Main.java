@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -16,9 +17,13 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         final Controller controller = new Controller();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("view/mainWindow.fxml"));
+        loader.setLocation(getClass().getResource("/view/mainWindow.fxml"));
         loader.setController(controller);
         Parent root = loader.load();
+
+        Image icon = new Image(getClass().getResourceAsStream("/logo final _ 3.png"));
+        primaryStage.getIcons().add(icon);
+
 
         primaryStage.setTitle("Catalog");
         primaryStage.setScene(new Scene(root));

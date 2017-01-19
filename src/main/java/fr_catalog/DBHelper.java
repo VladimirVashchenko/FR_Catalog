@@ -3,10 +3,7 @@ package fr_catalog;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by Administrator on 11.11.2016.
@@ -76,7 +73,8 @@ public class DBHelper {
 				")";
 
 		String singleNovels = "CREATE TABLE IF NOT EXISTS 'single_novels'(" +
-				"'novel_id' INTEGER NOT NULL," +
+				"'novel_id' INTEGER NOT NULL, " +
+				"'a_book' BOOLEAN NOT NULL, " +
 				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id)" +
 				")";
 
@@ -164,6 +162,40 @@ public class DBHelper {
 				}
 			}
 		}
+	}
+
+	public void selectNovels(boolean isBook){
+		String select = "SELECT " +
+				"n.novel_id, n.novel_title, n.published_ad, n.begins_dr, n.ends_dr, " +
+				"a.author_id, a.first_name, a.second_name, a.surname, " +
+				"sn.a_book, " +
+				"r.read " +
+				"FROM novels n " +
+				"JOIN single_novels sn ON n.novel_id = sn.novel_id " +
+				"JOIN author_novel an ON n.novel_id = an.novel_id " +
+				"JOIN authors a ON a.author_id = an.author_id " +
+				"JOIN read r ON sn.novel_id = r.novel_id " +
+				"WHERE a_book = ?";
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+
+		try {
+
+			statement = connection.prepareStatement(select);
+			statement.setInt(1, isBook ? 1: 0);
+			rs = statement.executeQuery();
+			connection.commit();
+
+			while (rs.next()) {
+//				salt = rs.getString("salt");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeRsStatement(statement, rs);
+		}
+//		return salt;
 	}
 
 	public void insertAuthor(String firstName, String secondName, String surname) {
@@ -263,6 +295,19 @@ public class DBHelper {
 		try {
 			if (statement != null) {
 				statement.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void closeRsStatement(Statement statement, ResultSet rs) {
+		try {
+			if (statement != null) {
+				statement.close();
+			}
+			if (rs != null) {
+				rs.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
