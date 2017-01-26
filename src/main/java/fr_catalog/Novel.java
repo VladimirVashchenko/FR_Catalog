@@ -26,8 +26,6 @@ public class Novel {
 	private final BooleanProperty read;
 
 
-
-
 	private Author authorObject = new Author();
 
 	public Novel() {
