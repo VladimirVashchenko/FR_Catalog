@@ -1,7 +1,7 @@
 ;This file will be executed next to the application bundle image
 ;I.e. current directory will contain folder FR_Catalog-1.0 with application files
 [Setup]
-AppId={{fr_catalog}}
+AppId={{frCatalog}}
 AppName=FR_Catalog-1.0
 AppVersion=1.0
 AppVerName=FR_Catalog-1.0 1.0

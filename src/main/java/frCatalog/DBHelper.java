@@ -1,4 +1,4 @@
-package fr_catalog;
+package frCatalog;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -72,95 +72,110 @@ public class DBHelper {
 		PreparedStatement statement = null;
 
 // language=HSQLDB
-		String authors = "CREATE TABLE IF NOT EXISTS authors (" +
-				"author_id INTEGER NOT NULL, " +
+		String author = "CREATE TABLE IF NOT EXISTS author (" +
+				"id INTEGER NOT NULL, " +
 				"first_name VARCHAR(50) NOT NULL, " +
 				"second_name VARCHAR(50) NOT NULL, " +
 				"surname VARCHAR(50) NOT NULL, " +
-				"PRIMARY KEY (author_id),"+
+				"PRIMARY KEY (id),"+
 				"UNIQUE (first_name, surname)" +
 				")";
 
 
 // language=HSQLDB
-		String novels = "CREATE TABLE IF NOT EXISTS novels (" +
-				"novel_id INTEGER NOT NULL, " +
-				"novel_title TEXT NOT NULL UNIQUE, " +
-				"published_ad TEXT NOT NULL, " +
-				"begins_dr TEXT NOT NULL, " +
-				"ends_dr TEXT NOT NULL," +
-				"PRIMARY KEY (novel_id)" +
+		String novel = "CREATE TABLE IF NOT EXISTS novel (" +
+				"id INTEGER NOT NULL, " +
+				"novel_title VARCHAR(100) NOT NULL UNIQUE, " +
+				"published_ad VARCHAR(30) NOT NULL, " +
+				"begins_dr VARCHAR(30) NOT NULL, " +
+				"ends_dr VARCHAR(30) NOT NULL," +
+				"PRIMARY KEY (id)" +
 				")";
 
 // language=HSQLDB
-		String anthologies = "CREATE TABLE IF NOT EXISTS anthologies(" +
-				"anthology_id INTEGER NOT NULL, " +
-				"anthology_title TEXT NOT NULL UNIQUE, " +
-				"published_ad TEXT NOT NULL," +
-				"PRIMARY KEY (anthology_id)" +
-				");";
+		String anthology = "CREATE TABLE IF NOT EXISTS anthology(" +
+				"id INTEGER NOT NULL, " +
+				"anthology_title VARCHAR(100) NOT NULL UNIQUE, " +
+				"published_ad VARCHAR(100) NOT NULL," +
+				"PRIMARY KEY (id)" +
+				")";
 
 // language=HSQLDB
 		String series = "CREATE TABLE IF NOT EXISTS series(" +
-				"series_id INTEGER NOT NULL, " +
-				"series_title TEXT NOT NULL UNIQUE," +
-				"PRIMARY KEY (series_id)" +
+				"id INTEGER NOT NULL, " +
+				"series_title VARCHAR(100) NOT NULL UNIQUE," +
+				"PRIMARY KEY (id)" +
 				")";
 
 // language=HSQLDB
 		String singleNovels = "CREATE TABLE IF NOT EXISTS single_novels(" +
+//				"id INTEGER NOT NULL, " +
 				"novel_id INTEGER NOT NULL, " +
 				"a_book BOOLEAN NOT NULL, " +
-				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id)" +
+				"PRIMARY KEY (novel_id), " +
+//				"PRIMARY KEY (id), " +
+				"FOREIGN KEY (novel_id) REFERENCES novel (id)" +
 				")";
 
 // language=HSQLDB
 		String authorNovel = "CREATE TABLE IF NOT EXISTS author_novel(" +
+//				"id INTEGER NOT NULL, " +
 				"author_id INTEGER NOT NULL, " +
 				"novel_id INTEGER NOT NULL," +
-				"FOREIGN KEY (author_id) REFERENCES authors (author_id), " +
-				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id), " +
-				"UNIQUE (author_id, novel_id)" +
-				");";
+				"PRIMARY KEY (author_id, novel_id)," +
+//				"PRIMARY KEY (id)," +
+				"FOREIGN KEY (author_id) REFERENCES author (id), " +
+				"FOREIGN KEY (novel_id) REFERENCES novel (id), " +
+				")";
 
 // language=HSQLDB
 		String anthologyNovel = "CREATE TABLE IF NOT EXISTS anthology_novel(" +
+//				"id INTEGER NOT NULL, " +
 				"anthology_id INTEGER NOT NULL, " +
 				"novel_id INTEGER NOT NULL," +
-				"FOREIGN KEY (anthology_id) REFERENCES anthologies (anthology_id), " +
-				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id), " +
-				"UNIQUE (anthology_id, novel_id)" +
-				");";
+				"PRIMARY KEY (anthology_id, novel_id)," +
+//				"PRIMARY KEY (id)," +
+				"FOREIGN KEY (anthology_id) REFERENCES anthology (id), " +
+				"FOREIGN KEY (novel_id) REFERENCES novel (id), " +
+				")";
 
 // language=HSQLDB
 		String seriesNovel = "CREATE TABLE IF NOT EXISTS series_novel(" +
+//				"id INTEGER NOT NULL, " +
 				"series_id INTEGER NOT NULL, " +
 				"novel_id INTEGER NOT NULL, " +
-				"number INTEGER NOT NULL, " +
-				"FOREIGN KEY (series_id) REFERENCES series (series_id), " +
-				"FOREIGN KEY (novel_id) REFERENCES novels (novel_id), " +
-				"UNIQUE (series_id, novel_id)" +
-				");";
+				"novel_number INTEGER NOT NULL, " +
+				"PRIMARY KEY (series_id, novel_id)," +
+//				"PRIMARY KEY (id)," +
+				"FOREIGN KEY (series_id) REFERENCES series (id), " +
+				"FOREIGN KEY (novel_id) REFERENCES novel (id), " +
+				")";
 
 // language=HSQLDB
 		String authorAnthology = "CREATE TABLE IF NOT EXISTS author_anthology(" +
+//				"id INTEGER NOT NULL, " +
 				"author_id INTEGER NOT NULL, " +
 				"anthology_id INTEGER NOT NULL," +
-				"FOREIGN KEY (author_id) REFERENCES authors (author_id), " +
-				"FOREIGN KEY (anthology_id) REFERENCES anthologies (anthology_id), " +
-				"UNIQUE (author_id, anthology_id)" +
-				");";
+				"PRIMARY KEY (author_id, anthology_id)," +
+//				"PRIMARY KEY (id)," +
+				"FOREIGN KEY (author_id) REFERENCES author (id), " +
+				"FOREIGN KEY (anthology_id) REFERENCES anthology (id), " +
+				")";
 
 // language=HSQLDB
-		String read = "CREATE TABLE IF NOT EXISTS read_books(" +
-				"novel_id INTEGER NOT NULL UNIQUE, " +
-				"read_yes_no BOOLEAN NOT NULL" +
-				");";
+		String read = "CREATE TABLE IF NOT EXISTS read_novels(" +
+//				"id INTEGER NOT NULL, " +
+				"novel_id INTEGER NOT NULL, " +
+				"read_yes_no BOOLEAN NOT NULL, " +
+				"PRIMARY KEY (novel_id), " +
+//				"PRIMARY KEY (id)," +
+				"FOREIGN KEY (novel_id) REFERENCES novel (id) " +
+				")";
 
 		try {
-			connection.createStatement().executeUpdate(authors);
-			connection.createStatement().executeUpdate(novels);
-			connection.createStatement().executeUpdate(anthologies);
+			connection.createStatement().executeUpdate(author);
+			connection.createStatement().executeUpdate(novel);
+			connection.createStatement().executeUpdate(anthology);
 			connection.createStatement().executeUpdate(series);
 
 			connection.createStatement().executeUpdate(singleNovels);
@@ -172,16 +187,6 @@ public class DBHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		createDB(connection, statement, authors);
-//		createDB(connection, statement, singleNovels);
-//		createDB(connection, statement, novels);
-//		createDB(connection, statement, anthologies);
-//		createDB(connection, statement, series);
-//		createDB(connection, statement, authorNovel);
-//		createDB(connection, statement, anthologyNovel);
-//		createDB(connection, statement, seriesNovel);
-//		createDB(connection, statement, authorAnthology);
-//		createDB(connection, statement, read);
 	}
 
 	private void createDB(Connection connection, PreparedStatement statement, String sql) {
@@ -208,10 +213,10 @@ public class DBHelper {
 				"a.author_id, a.first_name, a.second_name, a.surname, " +
 				"sn.a_book, " +
 				"r.read " +
-				"FROM novels n " +
+				"FROM novel n " +
 				"JOIN single_novels sn ON n.novel_id = sn.novel_id " +
 				"JOIN author_novel an ON n.novel_id = an.novel_id " +
-				"JOIN authors a ON a.author_id = an.author_id " +
+				"JOIN author a ON a.author_id = an.author_id " +
 				"JOIN read r ON sn.novel_id = r.novel_id " +
 				"WHERE a_book = ?";
 		PreparedStatement statement = null;
@@ -237,7 +242,7 @@ public class DBHelper {
 	}
 
 	public void insertAuthor(String firstName, String secondName, String surname) {
-		String statement = "INSERT OR IGNORE INTO authors (first_name, second_name, surname) VALUES (?, ?, ?)";
+		String statement = "INSERT OR IGNORE INTO author (first_name, second_name, surname) VALUES (?, ?, ?)";
 		prepareThreeParameters(statement, connection, firstName, secondName, surname);
 	}
 
