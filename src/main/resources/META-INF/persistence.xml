@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="catalog">
+        <description>My Persistence Unit</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <!--  enable selective 2nd level cache -->
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:D:/Users/Administrator/IdeaProjects/FR_Catalog/target/classes/db/catalog" />
+            <property name="javax.persistence.jdbc.user" value="sa" />
+            <property name="javax.persistence.jdbc.password" value="" />
+
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+
+
+            <property name="show_sql" value="true"/>
+            <property name="use_sql_comments_sql" value="true"/>
+            <property name="jdbc.batch_size" value="50"/>
+            <property name="order_inserts" value="true"/>
+            <property name="order_updates" value="true"/>
+            <property name="jdbc.batch_versioned_data" value="true"/>
+            <property name='generate_statistics' value="true"/>
+            <property name="hbm2ddl.auto" value="update"/>
+        </properties>
+
+
+    </persistence-unit>
+</persistence>
