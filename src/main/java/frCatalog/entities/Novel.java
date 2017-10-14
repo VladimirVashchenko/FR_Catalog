@@ -1,4 +1,4 @@
-package frCatalog.model.entities;
+package frCatalog.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;

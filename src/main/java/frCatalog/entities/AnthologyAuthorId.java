@@ -1,4 +1,4 @@
-package frCatalog.model.entities;
+package frCatalog.entities;
 
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
@@ -8,9 +8,9 @@ import java.io.Serializable;
  * Created by Administrator on 04.02.2017.
  */
 @Embeddable
-public class SeriesAuthorId implements Serializable{
+public class AnthologyAuthorId implements Serializable {
 	private Author author;
-	private Series series;
+	private Anthology anthology;
 
 	@ManyToOne
 //	@JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID", nullable = false)
@@ -23,22 +23,22 @@ public class SeriesAuthorId implements Serializable{
 	}
 
 	@ManyToOne
-//	@JoinColumn(name = "SERIES_ID", referencedColumnName = "ID", nullable = false)
-	public Series getSeries(){
-		return series;
+//	@JoinColumn(name = "ANTHOLOGY_ID", referencedColumnName = "ID", nullable = false)
+	public Anthology getAnthology(){
+		return anthology;
 	}
 
-	public void setSeries(Series series){
-		this.series = series;
+	public void setAnthology(Anthology anthology){
+		this.anthology = anthology;
 	}
 
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		SeriesAuthorId that = (SeriesAuthorId) o;
+		AnthologyAuthorId that = (AnthologyAuthorId) o;
 
-		if (series != null ? !series.equals(that.series) : that.series != null) return false;
+		if (anthology != null ? !anthology.equals(that.anthology) : that.anthology != null) return false;
 		if (author != null ? !author.equals(that.author) : that.author != null)
 			return false;
 
@@ -47,7 +47,7 @@ public class SeriesAuthorId implements Serializable{
 
 	public int hashCode() {
 		int result;
-		result = (series != null ? series.hashCode() : 0);
+		result = (anthology != null ? anthology.hashCode() : 0);
 		result = 31 * result + (author != null ? author.hashCode() : 0);
 		return result;
 	}
