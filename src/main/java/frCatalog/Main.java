@@ -1,16 +1,16 @@
 package frCatalog;
 
-import frCatalog.model.entities.*;
+import frCatalog.entities.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.stat.Statistics;
 
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main extends Application {
 
@@ -18,6 +18,8 @@ public class Main extends Application {
     private final DBHelper db = DBHelper.getInstance();
 
     SessionFactory sessionFactory;
+
+	private static final Logger logger = LogManager.getLogger(Main.class);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -50,16 +52,14 @@ public class Main extends Application {
 
 
 
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure() // configures settings from hibernate.cfg.xml
-                .build();
-        sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+//        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build(); // configures settings from hibernate.cfg.xml  TODO: switch to using properties.xml and EntityManagerFactory
+//        sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+//        Session session = sessionFactory.openSession();
+//        session.beginTransaction();
 
-
-
-
+	    EntityManagerFactory emf = Persistence.createEntityManagerFactory("catalog");
+	    EntityManager em = emf.createEntityManager();
+	    em.getTransaction().begin();
 
 
         Author author = new Author("Robert","Antonio", "Salvatore");
@@ -77,9 +77,13 @@ public class Main extends Application {
         seriesAuthor.setSeries(series);
         seriesAuthor.setAuthor(author);
 
-        session.save(author);
-        session.save(series);
-        session.save(seriesAuthor);
+//        session.save(author);
+//        session.save(series);
+//        session.save(seriesAuthor);
+
+	    em.persist(author);
+	    em.persist(series);
+	    em.persist(seriesAuthor);
 
         singleNovel.setNovel(novel);
         novel.setSingleNovels(singleNovel);
@@ -98,9 +102,12 @@ public class Main extends Application {
         series.getSeriesNovels().add(seriesNovel);
         novel.getSeriesNovels().add(seriesNovel);
 
-//      session.save(singleNovel); // и так, и так можно
-        session.save(novel);
-        session.save(singleNovel);
+//        session.save(singleNovel); // и так, и так можно
+//        session.save(novel);
+//        session.save(singleNovel);
+
+	    em.persist(novel);
+	    em.persist(singleNovel);
 
 	    anthologyAuthor.setAuthor(author);
 	    anthologyAuthor.setAnthology(anthology);
@@ -111,17 +118,23 @@ public class Main extends Application {
 	    anthologyNovel.setNovel(novel);
 	    anthology.getAnthologyNovels().add(anthologyNovel);
         novel.getAnthologyNovels().add(anthologyNovel);
-        session.save(anthology);
-        session.getTransaction().commit();
+//        session.save(anthology);
+//        session.getTransaction().commit();
 
-        List result = session.createQuery( "from Author" ).list();
-        for ( Author author1 : (List<Author>) result ) {
-            System.out.println( "Author: " + author1.getFirstName() + " " + author1.getSecondName() + " " +author1.getSurname());
-        }
-        Statistics stats = sessionFactory.getStatistics();
-        long queryCount = stats.getQueryExecutionCount();
-        System.out.println("sql count: "+queryCount);
-    }
+	    em.persist(anthology);
+	    em.getTransaction().commit();
+	    em.close();
+
+//        List result = session.createQuery( "from Author" ).list();
+//        for ( Author author1 : (List<Author>) result ) {
+//            System.out.println( "Author: " + author1.getFirstName() + " " + author1.getSecondName() + " " +author1.getSurname());
+//        }
+//        Statistics stats = sessionFactory.getStatistics();
+//        long queryCount = stats.getQueryExecutionCount();
+//        System.out.println("sql count: "+queryCount);
+
+
+	}
 
     public static void main(String[] args) {
         launch(args);
