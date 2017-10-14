@@ -1,10 +1,11 @@
-<?xml version='1.0' encoding='utf-8'?>
 <!--
+<?xml version='1.0' encoding='utf-8'?>
+&lt;!&ndash;
   ~ Hibernate, Relational Persistence for Idiomatic Java
   ~
   ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
   ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
-  -->
+  &ndash;&gt;
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
@@ -13,20 +14,20 @@
 
         <session-factory>
 
-                <!-- Database connection settings -->
+                &lt;!&ndash; Database connection settings &ndash;&gt;
                 <property name="connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
                 <property name="connection.url">jdbc:hsqldb:file:D:/Users/Administrator/IdeaProjects/FR_Catalog/target/classes/db/catalog</property>
 
-                <!-- JDBC connection pool (use the built-in) -->
+                &lt;!&ndash; JDBC connection pool (use the built-in) &ndash;&gt;
                 <property name="connection.pool_size">1</property>
 
-                <!-- SQL dialect -->
+                &lt;!&ndash; SQL dialect &ndash;&gt;
                 <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
 
-                <!-- Disable the second-level cache  -->
-                <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+                &lt;!&ndash; Disable the second-level cache  &ndash;&gt;
+                <property name="cache.provider_class">org.hibernate.cache.internal.NoCachingRegionFactory</property>
 
-                <!-- Echo all executed SQL to stdout -->
+                &lt;!&ndash; Echo all executed SQL to stdout &ndash;&gt;
                 <property name="show_sql">true</property>
                 <property name="use_sql_comments_sql">true</property>
                 <property name="jdbc.batch_size">50</property>
@@ -36,22 +37,22 @@
                 <property name='generate_statistics'>true</property>
                 <property name="hbm2ddl.auto">update</property>
 
-                <mapping class="frCatalog.model.entities.Author"/>
-                <mapping class="frCatalog.model.entities.Novel"/>
-                <mapping class="frCatalog.model.entities.Series"/>
-                <mapping class="frCatalog.model.entities.Anthology"/>
-                <mapping class="frCatalog.model.entities.NovelAuthor"/>
-                <mapping class="frCatalog.model.entities.NovelAuthorId"/>
-                <mapping class="frCatalog.model.entities.SeriesAuthor"/>
-                <mapping class="frCatalog.model.entities.SeriesAuthorId"/>
-                <mapping class="frCatalog.model.entities.SeriesNovel"/>
-                <mapping class="frCatalog.model.entities.SeriesNovelId"/>
-                <mapping class="frCatalog.model.entities.AnthologyNovel"/>
-                <mapping class="frCatalog.model.entities.AnthologyNovelId"/>
-                <mapping class="frCatalog.model.entities.AnthologyAuthor"/>
-                <mapping class="frCatalog.model.entities.AnthologyAuthorId"/>
-                <mapping class="frCatalog.model.entities.SingleNovels"/>
-                <mapping class="frCatalog.model.entities.ReadNovels"/>
+                <mapping class="frCatalog.entities.Author"/>
+                <mapping class="frCatalog.entities.Novel"/>
+                <mapping class="frCatalog.entities.Series"/>
+                <mapping class="frCatalog.entities.Anthology"/>
+                <mapping class="frCatalog.entities.NovelAuthor"/>
+                <mapping class="frCatalog.entities.NovelAuthorId"/>
+                <mapping class="frCatalog.entities.SeriesAuthor"/>
+                <mapping class="frCatalog.entities.SeriesAuthorId"/>
+                <mapping class="frCatalog.entities.SeriesNovel"/>
+                <mapping class="frCatalog.entities.SeriesNovelId"/>
+                <mapping class="frCatalog.entities.AnthologyNovel"/>
+                <mapping class="frCatalog.entities.AnthologyNovelId"/>
+                <mapping class="frCatalog.entities.AnthologyAuthor"/>
+                <mapping class="frCatalog.entities.AnthologyAuthorId"/>
+                <mapping class="frCatalog.entities.SingleNovels"/>
+                <mapping class="frCatalog.entities.ReadNovels"/>
         </session-factory>
 
 </hibernate-configuration>
@@ -59,3 +60,4 @@
 
 
 
+-->
