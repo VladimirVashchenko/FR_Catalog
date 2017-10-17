@@ -13,18 +13,16 @@
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
 
-            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.generate_statistics" value="true"/>
+
+
+            <!--<property name="use_sql_comments_sql" value="false"/>-->
             <property name="hibernate.hbm2ddl.auto" value="create" />
-
-
-            <property name="show_sql" value="true"/>
-            <property name="use_sql_comments_sql" value="true"/>
             <property name="jdbc.batch_size" value="50"/>
+            <property name="jdbc.batch_versioned_data" value="true"/>
             <property name="order_inserts" value="true"/>
             <property name="order_updates" value="true"/>
-            <property name="jdbc.batch_versioned_data" value="true"/>
-            <property name='generate_statistics' value="true"/>
-            <property name="hbm2ddl.auto" value="update"/>
         </properties>
 
 
